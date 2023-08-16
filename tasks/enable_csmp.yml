@@ -1,0 +1,45 @@
+---
+# tasks file for enable_cmsp
+- name: Start task to enable CMSP
+  ansible.builtin.uri:
+    url: "https://{{ nutanix_host }}:{{ nutanix_port }}/api/nutanix/v3/prism_central/cmsp/configure"
+    body:
+      operation: "kEnable"
+      config:
+        platform_network_configuration:
+          subnet_mask: "{{ cmsp_subnet_mask }}"
+          type: "{{ cmsp_network_type }}"
+          default_gateway: "{{ cmsp_network_default_gateway }}"
+        pc_domain_name: "{{ cmsp_domain_name }}"
+        platform_ip_block_list: "{{ cmsp_platform_ip_block_list }}"
+    method: POST
+    validate_certs: "{{ validate_certs }}"
+    body_format: json
+    status_code: 202
+    headers:
+      Authorization: "{{ nutanix_api_auth }}"
+  register: nutanix_cmsp_enable_result
+
+- name: Debug nutanix_cmsp_enable_result
+  ansible.builtin.debug:
+    var: nutanix_cmsp_enable_result.json
+  when:
+    - nutanix_debug
+
+- name: Wait for CMSP enable task to complete
+  ansible.builtin.import_role:
+    name: grdavies.role_nutanix_prism_monitor_task
+  vars:
+    nutanix_task_uuid: "{{ nutanix_cmsp_enable_result.json.task_uuid }}"
+    nutanix_task_retries: 30
+    nutanix_task_retry_delay: 120
+
+- name: Set prism_cmsp_enable_task_status
+  ansible.builtin.set_fact:
+    prism_cmsp_enable_task_status: "{{ monitored_task }}"
+
+- name: Debug prism_cmsp_enable_task_status
+  ansible.builtin.debug:
+    var: prism_cmsp_enable_task_status.json
+  when:
+    - nutanix_debug

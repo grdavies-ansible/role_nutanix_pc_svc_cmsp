@@ -1,0 +1,15 @@
+---
+# defaults file for nutanix_role_prism_cmsp
+nutanix_host: ""
+nutanix_username: ""
+nutanix_password: ""
+nutanix_port: 9440
+validate_certs: false
+nutanix_debug: false
+enable_cmsp: false
+cmsp_domain_name: "prism-central.cluster.local"
+cmsp_network_default_gateway: "192.168.5.1"
+cmsp_network_type: "kPrivateNetwork"
+cmsp_subnet_mask: "255.255.255.0"
+cmsp_platform_ip_block_list:
+  - "192.168.5.2 192.168.5.64"

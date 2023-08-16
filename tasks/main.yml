@@ -1,0 +1,28 @@
+---
+# tasks file for nutanix_role_prism_cmsp
+- name: Setup connection to Nutanix API
+  ansible.builtin.include_tasks: setup_api.yml
+
+- name: "Task can only be run against Prism Central"
+  ansible.builtin.fail:
+    msg: "'nutanix_host' needs to be set to the IP or VIP of Prism Central. Please check the nutanix_host variable and try again."
+  when:
+    - nutanix_endpoint_prism_type != 'pc'
+
+- name: Check current CMSP State
+  include_tasks: check_cmsp_state.yml
+
+- name: Validate CMSP Configuration
+  ansible.builtin.include_tasks: validate_cmsp.yml
+  when:
+    - enable_cmsp
+    - nutanix_cmsp_current_state == "Disabled"
+    - not nutanix_cmsp_current_task_uuid
+
+- name: Enable CMSP
+  ansible.builtin.include_tasks: enable_csmp.yml
+  when:
+    - enable_cmsp
+    - prism_cmsp_validate_task_status.json.status | lower | default('') == 'succeeded'
+    - nutanix_cmsp_current_state == "Disabled"
+    - not nutanix_cmsp_current_task_uuid

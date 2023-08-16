@@ -1,0 +1,2 @@
+tasks/enable_csmp.yml var-naming[no-role-prefix]
+tasks/validate_cmsp.yml var-naming[no-role-prefix]
