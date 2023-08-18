@@ -16,13 +16,13 @@
   ansible.builtin.include_tasks: validate_cmsp.yml
   when:
     - enable_cmsp
-    - nutanix_cmsp_current_state == "Disabled"
+    - nutanix_cmsp_current_state | default('disabled') | lower == "disabled"
     - not nutanix_cmsp_current_task_uuid
 
 - name: Enable CMSP
   ansible.builtin.include_tasks: enable_csmp.yml
   when:
     - enable_cmsp
-    - prism_cmsp_validate_task_status.json.status | lower | default('') == 'succeeded'
-    - nutanix_cmsp_current_state == "Disabled"
+    - prism_cmsp_validate_task_status.json.status | default('') | lower == 'succeeded'
+    - nutanix_cmsp_current_state | default('disabled') | lower == "disabled"
     - not nutanix_cmsp_current_task_uuid
