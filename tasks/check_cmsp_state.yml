@@ -13,6 +13,12 @@
       Authorization: "{{ nutanix_api_auth }}"
   register: nutanix_cmsp_current_state
 
+- name: Debug nutanix_cmsp_current_state
+  ansible.builtin.debug:
+    var: nutanix_cmsp_current_state
+  when:
+    - nutanix_debug
+
 - name: Set nutanix_cmsp_current_state_result_value
   ansible.builtin.set_fact:
     nutanix_cmsp_current_state_result_value: "{{ nutanix_cmsp_current_state.json | community.general.json_query(query) | to_json | from_json }}"
