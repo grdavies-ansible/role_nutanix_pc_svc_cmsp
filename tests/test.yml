@@ -4,8 +4,8 @@
   roles:
     - role: ../..
   vars:
-    nutanix_host: 10.38.25.39
-    nutanix_username: admin
-    nutanix_password: nx2Tech126!
-    nutanix_debug: yes
-    enable_cmsp: yes
+    role_nutanix_pc_svc_cmsp_host: 10.38.72.41
+    role_nutanix_pc_svc_cmsp_username: admin
+    role_nutanix_pc_svc_cmsp_password: nx2Tech126!
+    role_nutanix_pc_svc_cmsp_debug: true
+    role_nutanix_pc_svc_cmsp_enable: true

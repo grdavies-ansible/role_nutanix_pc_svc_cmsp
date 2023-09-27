@@ -1,45 +1,51 @@
 ---
-# tasks file for enable_cmsp
+# tasks file for role_nutanix_pc_svc_cmsp_enable
 - name: Start task to validate that CMSP can be enabled
   ansible.builtin.uri:
-    url: "https://{{ nutanix_host }}:{{ nutanix_port }}/api/nutanix/v3/prism_central/cmsp/configure"
+    url: "https://{{ role_nutanix_prism_api_url_base }}/api/nutanix/v3/prism_central/cmsp/configure"
     body:
       operation: "kValidate"
       config:
         platform_network_configuration:
-          subnet_mask: "{{ cmsp_subnet_mask }}"
-          type: "{{ cmsp_network_type }}"
-          default_gateway: "{{ cmsp_network_default_gateway }}"
-        pc_domain_name: "{{ cmsp_domain_name }}"
-        platform_ip_block_list: "{{ cmsp_platform_ip_block_list }}"
+          subnet_mask: "{{ role_nutanix_pc_svc_cmsp_subnet_mask }}"
+          type: "{{ role_nutanix_pc_svc_cmsp_network_type }}"
+          default_gateway: "{{ role_nutanix_pc_svc_cmsp_default_gateway }}"
+        pc_domain_name: "{{ role_nutanix_pc_svc_cmsp_domain_name }}"
+        platform_ip_block_list: "{{ role_nutanix_pc_svc_cmsp_ip_block_list }}"
     method: POST
-    validate_certs: "{{ validate_certs }}"
+    validate_certs: "{{ role_nutanix_pc_svc_cmsp_validate_certs }}"
     body_format: json
     status_code: 202
     headers:
-      Authorization: "{{ nutanix_api_auth }}"
-  register: nutanix_cmsp_validation_result
+      Authorization: "{{ role_nutanix_prism_api_auth_string_b64 }}"
+  register: role_nutanix_pc_svc_cmsp_validation_result
 
-- name: Debug nutanix_cmsp_validation_result
+- name: Debug role_nutanix_pc_svc_cmsp_validation_result
   ansible.builtin.debug:
-    var: nutanix_cmsp_validation_result.json
+    var: role_nutanix_pc_svc_cmsp_validation_result.json
   when:
-    - nutanix_debug
+    - role_nutanix_pc_svc_cmsp_debug
 
 - name: Wait for CMSP validatation task to complete
   ansible.builtin.import_role:
     name: grdavies.role_nutanix_prism_monitor_task
   vars:
-    nutanix_task_uuid: "{{ nutanix_cmsp_validation_result.json.task_uuid }}"
-    nutanix_task_retries: 10
-    nutanix_task_retry_delay: 5
+    role_nutanix_prism_monitor_task_host: "{{ role_nutanix_pc_svc_cmsp_host }}"
+    role_nutanix_prism_monitor_task_username: "{{ role_nutanix_pc_svc_cmsp_username }}"
+    role_nutanix_prism_monitor_task_password: "{{ role_nutanix_pc_svc_cmsp_password }}"
+    role_nutanix_prism_monitor_task_port: "{{ role_nutanix_pc_svc_cmsp_port | default(omit) }}"
+    role_nutanix_prism_monitor_task_validate_certs: "{{ role_nutanix_pc_svc_cmsp_validate_certs | default(omit) }}"
+    role_nutanix_prism_monitor_task_debug: "{{ role_nutanix_pc_svc_cmsp_debug | default(omit) }}"
+    role_nutanix_prism_monitor_task_uuid: "{{ role_nutanix_pc_svc_cmsp_validation_result.json.task_uuid }}"
+    role_nutanix_prism_monitor_task_retries: 10
+    role_nutanix_prism_monitor_task_retry_delay: 5
 
-- name: Set prism_cmsp_validate_task_status
+- name: Set role_nutanix_pc_svc_cmsp_validate_task_status
   ansible.builtin.set_fact:
-    prism_cmsp_validate_task_status: "{{ monitored_task }}"
+    role_nutanix_pc_svc_cmsp_validate_task_status: "{{ role_nutanix_prism_monitor_task_result }}"
 
-- name: Debug prism_cmsp_validate_task_status.json
+- name: Debug role_nutanix_pc_svc_cmsp_validate_task_status.json
   ansible.builtin.debug:
-    var: prism_cmsp_validate_task_status.json
+    var: role_nutanix_pc_svc_cmsp_validate_task_status.json
   when:
-    - nutanix_debug
+    - role_nutanix_pc_svc_cmsp_debug

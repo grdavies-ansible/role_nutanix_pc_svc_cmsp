@@ -1,13 +1,23 @@
 ---
-# tasks file for nutanix_role_prism_cmsp
+# tasks file for role_nutanix_pc_svc_cmsp
 - name: Setup connection to Nutanix API
-  ansible.builtin.include_tasks: setup_api.yml
+  ansible.builtin.include_role:
+    name: grdavies.role_nutanix_prism_api
+  vars:
+    role_nutanix_prism_api_host: "{{ role_nutanix_pc_svc_cmsp_host }}"
+    role_nutanix_prism_api_username: "{{ role_nutanix_pc_svc_cmsp_username }}"
+    role_nutanix_prism_api_password: "{{ role_nutanix_pc_svc_cmsp_password | default(omit) }}"
+    role_nutanix_prism_api_port: "{{ role_nutanix_pc_svc_cmsp_port | default(omit) }}"
+    role_nutanix_prism_api_validate_certs: "{{ role_nutanix_pc_svc_cmsp_validate_certs | default(omit) }}"
+    role_nutanix_prism_api_debug: "{{ role_nutanix_pc_svc_cmsp_debug }}"
 
 - name: "Task can only be run against Prism Central"
   ansible.builtin.fail:
-    msg: "'nutanix_host' needs to be set to the IP or VIP of Prism Central. Please check the nutanix_host variable and try again."
+    msg:
+      "'role_nutanix_pc_svc_cmsp_host' needs to be set to the IP or VIP of Prism Central. \
+      Please check the role_nutanix_pc_svc_cmsp_host variable and try again."
   when:
-    - nutanix_endpoint_prism_type != 'pc'
+    - role_nutanix_prism_api_endpoint_type != 'pc'
 
 - name: Check current CMSP State
   include_tasks: check_cmsp_state.yml
@@ -15,14 +25,14 @@
 - name: Validate CMSP Configuration
   ansible.builtin.include_tasks: validate_cmsp.yml
   when:
-    - enable_cmsp
-    - nutanix_cmsp_current_state | default('disabled') | lower == "disabled"
-    - not nutanix_cmsp_current_task_uuid
+    - role_nutanix_pc_svc_cmsp_enable
+    - role_nutanix_pc_svc_cmsp_current_state | default('disabled') | lower == "disabled"
+    - not role_nutanix_pc_svc_cmsp_task_uuid
 
 - name: Enable CMSP
   ansible.builtin.include_tasks: enable_csmp.yml
   when:
-    - enable_cmsp
-    - prism_cmsp_validate_task_status['json']['status'] | default('') | lower == 'succeeded'
-    - nutanix_cmsp_current_state | default('disabled') | lower == "disabled"
-    - not nutanix_cmsp_current_task_uuid
+    - role_nutanix_pc_svc_cmsp_enable
+    - role_nutanix_pc_svc_cmsp_validate_task_status['json']['status'] | default('') | lower == 'succeeded'
+    - role_nutanix_pc_svc_cmsp_current_state | default('disabled') | lower == "disabled"
+    - not role_nutanix_pc_svc_cmsp_task_uuid
