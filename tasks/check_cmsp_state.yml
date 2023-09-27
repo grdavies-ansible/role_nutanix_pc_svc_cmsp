@@ -21,7 +21,11 @@
 
 - name: Set role_nutanix_pc_svc_cmsp_current_state_result_value
   ansible.builtin.set_fact:
-    role_nutanix_pc_svc_cmsp_current_state_result_value: "{{ role_nutanix_pc_svc_cmsp_current_state.json | community.general.json_query(query) | to_json | from_json }}"
+    role_nutanix_pc_svc_cmsp_current_state_result_value: >-
+      "{{ role_nutanix_pc_svc_cmsp_current_state.json
+      | community.general.json_query(query)
+      | to_json
+      | from_json }}"
   vars:
     query: "value"
 
