@@ -6,10 +6,10 @@
   vars:
     role_nutanix_prism_api_host: "{{ role_nutanix_pc_svc_cmsp_host }}"
     role_nutanix_prism_api_username: "{{ role_nutanix_pc_svc_cmsp_username }}"
-    role_nutanix_prism_api_password: "{{ role_nutanix_pc_svc_cmsp_password | default(omit) }}"
+    role_nutanix_prism_api_password: "{{ role_nutanix_pc_svc_cmsp_password }}"
     role_nutanix_prism_api_port: "{{ role_nutanix_pc_svc_cmsp_port | default(omit) }}"
     role_nutanix_prism_api_validate_certs: "{{ role_nutanix_pc_svc_cmsp_validate_certs | default(omit) }}"
-    role_nutanix_prism_api_debug: "{{ role_nutanix_pc_svc_cmsp_debug }}"
+    role_nutanix_prism_api_debug: "{{ role_nutanix_pc_svc_cmsp_debug | default(omit) }}"
 
 - name: "Task can only be run against Prism Central"
   ansible.builtin.fail:
