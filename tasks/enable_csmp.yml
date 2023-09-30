@@ -13,7 +13,7 @@
         pc_domain_name: "{{ role_nutanix_pc_svc_cmsp_domain_name }}"
         platform_ip_block_list: "{{ role_nutanix_pc_svc_cmsp_ip_block_list }}"
     method: POST
-    validate_certs: "{{ role_nutanix_pc_svc_cmsp_validate_certs }}"
+    validate_certs: "{{ role_nutanix_pc_svc_cmsp_host_validate_certs }}"
     body_format: json
     status_code: 202
     headers:
@@ -31,10 +31,10 @@
     name: grdavies.role_nutanix_prism_monitor_task
   vars:
     role_nutanix_prism_monitor_task_host: "{{ role_nutanix_pc_svc_cmsp_host }}"
-    role_nutanix_prism_monitor_task_username: "{{ role_nutanix_pc_svc_cmsp_username }}"
-    role_nutanix_prism_monitor_task_password: "{{ role_nutanix_pc_svc_cmsp_password }}"
-    role_nutanix_prism_monitor_task_port: "{{ role_nutanix_pc_svc_cmsp_port | default(omit) }}"
-    role_nutanix_prism_monitor_task_validate_certs: "{{ role_nutanix_pc_svc_cmsp_validate_certs | default(omit) }}"
+    role_nutanix_prism_monitor_task_host_username: "{{ role_nutanix_pc_svc_cmsp_host_username }}"
+    role_nutanix_prism_monitor_task_host_password: "{{ role_nutanix_pc_svc_cmsp_host_password }}"
+    role_nutanix_prism_monitor_task_host_port: "{{ role_nutanix_pc_svc_cmsp_host_port | default(omit) }}"
+    role_nutanix_prism_monitor_task_host_validate_certs: "{{ role_nutanix_pc_svc_cmsp_host_validate_certs | default(omit) }}"
     role_nutanix_prism_monitor_task_debug: "{{ role_nutanix_pc_svc_cmsp_debug | default(omit) }}"
     role_nutanix_prism_monitor_task_uuid: "{{ role_nutanix_pc_svc_cmsp_enable_result.json.task_uuid }}"
     role_nutanix_prism_monitor_task_retries: 30

@@ -1,10 +1,10 @@
 ---
 # defaults file for nutanix_role_prism_cmsp
 role_nutanix_pc_svc_cmsp_host: ""
-role_nutanix_pc_svc_cmsp_username: ""
-role_nutanix_pc_svc_cmsp_password: ""
-role_nutanix_pc_svc_cmsp_port: 9440
-role_nutanix_pc_svc_cmsp_validate_certs: false
+role_nutanix_pc_svc_cmsp_host_username: ""
+role_nutanix_pc_svc_cmsp_host_password: ""
+role_nutanix_pc_svc_cmsp_host_port: 9440
+role_nutanix_pc_svc_cmsp_host_validate_certs: false
 role_nutanix_pc_svc_cmsp_debug: false
 role_nutanix_pc_svc_cmsp_enable: false
 role_nutanix_pc_svc_cmsp_domain_name: "prism-central.cluster.local"

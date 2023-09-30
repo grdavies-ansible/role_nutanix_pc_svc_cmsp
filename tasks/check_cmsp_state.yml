@@ -6,7 +6,7 @@
     body:
       value: '{".oid":"ClusterManager",".method":"get_cmsp_status",".kwargs":{}}'
     method: POST
-    validate_certs: "{{ role_nutanix_pc_svc_cmsp_validate_certs }}"
+    validate_certs: "{{ role_nutanix_pc_svc_cmsp_host_validate_certs }}"
     body_format: json
     status_code: 200
     headers:
