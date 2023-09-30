@@ -2,7 +2,7 @@
 
 This Ansible role enables MSP (Micro Service Platform) Prism Central. Nutanix Microservices Infrastructure (sometimes referred to as MSP) provides a common framework and services to deploy the container-based services associated with Prism Central based components like Flow Virtual Networking and Objects. It deploys services like Identity and Access Management (IAM), Load Balancing (LB), and Virtual Private Networking (VPN). Such services are packaged in containers as microservices and the control plane for the microservices platform enables microservices infrastructure. MSP is enabled by default on PC.2022.9.x but needs to be enabled on any prior release, once enabled MSP cannot be disabled. For further details please refer to https://portal.nutanix.com/page/documents/details?targetId=Prism-Central-Guide:mul-cmsp-overview-pc-c.html 
 
-> NOTE: Please be sure to read the MSP deployment guide and pre-requisites before enabling this feature. 
+> NOTE: Please be sure to read the MSP deployment guide and pre-requisites before enabling this feature.
 
 ## Role Variables
 
@@ -12,8 +12,9 @@ This Ansible role enables MSP (Micro Service Platform) Prism Central. Nutanix Mi
 | role_nutanix_pc_svc_cmsp_host_username        | yes      |                                |                                                                                 | A valid username with appropriate rights to access the Nutanix API.                                                                                |
 | role_nutanix_pc_svc_cmsp_host_password        | yes      |                                |                                                                                 | A valid password for the supplied username.                                                                                                        |
 | role_nutanix_pc_svc_cmsp_host_port            | no       | 9440                           |                                                                                 | The Prism TCP port.                                                                                                                                |
-| role_nutanix_pc_svc_cmsp_host_validate_certs  | no       | no                             | yes / no                                                                        | Whether to check if Prism UI certificates are valid.                                                                                               |
-| role_nutanix_pc_svc_cmsp_enable               | no       | no                             | yes / no                                                                        | Whether to enable CMSP or not.                                                                                                                     |
+| role_nutanix_pc_svc_cmsp_host_validate_certs  | no       | false                          | true / false                                                                    | Whether to check if Prism UI certificates are valid.                                                                                               |
+| role_nutanix_pc_svc_cmsp_debug                | no       | false                          | true / false                                                                    | Enable debug logging.                                                                                                                              |
+| role_nutanix_pc_svc_cmsp_enable               | no       | false                          | true / false                                                                    | Whether to enable CMSP or not.                                                                                                                     |
 | role_nutanix_pc_svc_cmsp_domain_name          | no       | prism-central.cluster.local    |                                                                                 |                                                                                                                                                    |
 | role_nutanix_pc_svc_cmsp_network_type         | no       | kPrivateNetwork                |                                                                                 |                                                                                                                                                    |
 | role_nutanix_pc_svc_cmsp_default_gateway      | no       | 192.168.5.1                    |                                                                                 |                                                                                                                                                    |
@@ -27,7 +28,7 @@ This Ansible role enables MSP (Micro Service Platform) Prism Central. Nutanix Mi
 
 ## Example Playbook
 
-```
+```YAML
 - hosts: localhost
   gather_facts: false
   roles:
