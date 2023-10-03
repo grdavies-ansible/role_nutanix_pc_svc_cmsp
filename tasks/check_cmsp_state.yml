@@ -37,7 +37,7 @@
 
 - name: Set role_nutanix_pc_svc_cmsp_current_state
   ansible.builtin.set_fact:
-    role_nutanix_pc_svc_cmsp_current_state: '{{ role_nutanix_pc_svc_cmsp_current_state_result_valuee[".return"]["status"] }}'
+    role_nutanix_pc_svc_cmsp_current_state: '{{ role_nutanix_pc_svc_cmsp_current_state_result_value[".return"]["status"] }}'
   vars:
     query: 'value.".return".status'
 
