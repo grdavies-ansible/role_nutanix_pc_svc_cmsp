@@ -1,2 +1,3 @@
 tasks/enable_csmp.yml var-naming[no-role-prefix]
 tasks/validate_cmsp.yml var-naming[no-role-prefix]
+tasks/check_cmsp_state.yml yaml[line-length]
